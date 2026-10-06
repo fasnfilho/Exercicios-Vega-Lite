@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>Visualizações - Vega-Lite</title>
+
+  <script src="https://cdn.jsdelivr.net/npm/vega@6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/vega-lite@6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/vega-embed@7"></script>
+
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      max-width: 1000px;
+      margin: 40px auto;
+      padding: 0 20px;
+    }
+
+    h1 {
+      text-align: center;
+    }
+
+    .grafico {
+      margin-bottom: 60px;
+    }
+  </style>
+</head>
+
+<body>
+
+  <h1>Exercícios de Visualização de Dados</h1>
+
+  <div class="grafico">
+    <h2>Exercício 1</h2>
+    <div id="grafico1"></div>
+  </div>
+
+  <div class="grafico">
+    <h2>Exercício 2</h2>
+    <div id="grafico2"></div>
+  </div>
+
+  <script>
+
+    const grafico1 = {
+      "$schema": "https://vega.github.io/schema/vega-lite/v6.json",
+
+      "data": {
+        "url": "life_style_data.csv"
+      },
+
+      "mark": "bar",
+
+      "encoding": {
+        "x": {
+          "field": "Fat_Percentage",
+          "type": "quantitative",
+          "aggregate": "mean",
+          "title": "Média de Percentual de Gordura"
+        },
+
+        "y": {
+          "field": "Workout_Type",
+          "type": "nominal",
+          "sort": {
+            "field": "Fat_Percentage",
+            "op": "mean",
+            "order": "ascending"
+          },
+          "title": "Tipo de Treino"
+        }
+      }
+    };
+
+
+    const grafico2 = {
+      "$schema": "https://vega.github.io/schema/vega-lite/v6.json",
+
+      "data": {
+        "url": "life_style_data.csv"
+      },
+
+      "transform": [
+        {
+          "filter": "datum.Gender == 'Male' || datum.Gender == 'Female'"
+        }
+      ],
+
+      "mark": {
+        "type": "circle",
+        "size": 50,
+        "opacity": 0.6
+      },
+
+      "encoding": {
+        "x": {
+          "field": "Age",
+          "type": "quantitative",
+          "title": "Idade"
+        },
+
+        "y": {
+          "field": "BMI",
+          "type": "quantitative",
+          "title": "IMC"
+        },
+
+        "column": {
+          "field": "Gender",
+          "type": "nominal",
+          "title": "Gênero"
+        }
+      }
+    };
+
+    vegaEmbed("#grafico1", grafico1);
+    vegaEmbed("#grafico2", grafico2);
+
+  </script>
+
+</body>
+</html>
